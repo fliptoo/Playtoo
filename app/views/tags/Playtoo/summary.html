@@ -1,0 +1,11 @@
+%{
+if (_items != null) {
+  // wrap raw Lists with the Paginator class
+  if (_items instanceof List && !(_items instanceof models.Playtoo.paginate.Paginator)) {
+    _items = new models.Playtoo.paginate.ValuePaginator(_items); 
+  }
+%}
+	#{include 'Playtoo/RowCountSummary.html' /}	
+%{  
+} 
+}%

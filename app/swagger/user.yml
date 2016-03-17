@@ -1,0 +1,185 @@
+resourcePath: /user
+apis: 
+
+
+
+- path: /api/user/register
+  operations:
+
+  - httpMethod: POST
+    nickname: create
+    summary: Register a new user
+    parameters:
+
+    - name: recognizer
+      dataType: string
+      paramType: query
+      required: true
+      description: "User email"
+
+    - name: password
+      dataType: string
+      paramType: query
+      required: true
+      description: "Password"
+      
+    - name: name
+      dataType: string
+      paramType: query
+      required: true
+      description: "User name"
+      
+    - name: mobileNo
+      dataType: string
+      paramType: query
+      required: false
+      description: "Mobile number"
+    
+    - name: avatar
+      dataType: file
+      paramType: query
+      required: false
+      description: "Avatar to upload"
+      
+    
+- path: /api/user/touch
+  operations:
+
+  - httpMethod: POST
+    nickname: touch
+    summary: Update device token and platform
+    parameters:
+
+    - name: platform
+      dataType: string
+      paramType: query
+      required: true
+      description: "Device Platform"
+      allowableValues:
+          valueType: LIST
+          values:
+            - IOS
+            - ANDROID
+
+    - name: token
+      dataType: string
+      paramType: query
+      required: true
+      description: "Device Token"
+
+
+
+- path: /api/user/forgotPassword
+  operations:
+
+  - httpMethod: POST
+    nickname: forgetPassword
+    summary: Ask for a reset password link
+    parameters:
+    
+    - name: email
+      dataType: string
+      paramType: query
+      required: false
+      description: "User email"
+    
+    
+    
+- path: /api/user/search
+  operations:
+  
+  - httpMethod: GET
+    nickname: list
+    summary: Search for a list of user
+    parameters:
+    
+    - name: keyword
+      dataType: string
+      paramType: query
+      required: true
+      description: "Keyword to search for user"
+      
+    - name: page
+      dataType: int
+      paramType: query
+      required: false
+      description: "Result page, default 1"
+      
+    - name: length
+      dataType: int
+      paramType: query
+      required: false
+      description: "Result size, default 10"
+      
+      
+      
+- path: /api/user/find
+  operations:
+  
+  - httpMethod: GET
+    nickname: list
+    summary: Find user by id
+    parameters:
+    
+    - name: id
+      dataType: long
+      paramType: query
+      required: true
+      description: "User id"
+
+
+
+- path: /api/user/changePassword
+  operations:
+
+  - httpMethod: POST
+    nickname: changePassword
+    summary: Change user password
+    parameters:
+
+    - name: oldPassword
+      dataType: string
+      paramType: query
+      required: true
+      description: "Old Password"
+
+    - name: newPassword
+      dataType: string
+      paramType: query
+      required: true
+      description: "New Password"
+      
+      
+
+- path: /api/user/update
+  operations:
+
+  - httpMethod: POST
+    nickname: update
+    summary: Update user info
+    parameters:
+    
+    - name: name
+      dataType: string
+      paramType: query
+      required: false
+      description: "User name"
+    
+    - name: avatar
+      dataType: file
+      paramType: query
+      required: false
+      description: "Avatar to upload"
+
+    - name: oldPassword
+      dataType: string
+      paramType: query
+      required: false
+      description: "Old Password (Leave it empty to ignored old password validation)"
+
+    - name: newPassword
+      dataType: string
+      paramType: query
+      required: false
+      description: "New Password"
+ 

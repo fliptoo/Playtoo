@@ -1,0 +1,26 @@
+# Default Playtoo messages
+# You can specialize this file for each language.
+# For exemple, for french create a messages.fr file
+
+#Playtoo.name=Playtoo
+
+play-paginate.first=&laquo;&nbsp;First
+play-paginate.prev=&lsaquo;&nbsp;Previous
+play-paginate.next=Next&nbsp;&rsaquo;
+play-paginate.last=Last&nbsp;&raquo;
+
+play-paginate.summary.display=Displaying rows
+play-paginate.summary.to=to
+play-paginate.summary.from=out of
+play-paginate.summary.entries=entries
+
+# ----------------------------
+# Error Type Messages
+# ----------------------------
+
+MIN=%s can not less than %s
+MAX=%s can not larger than %s
+NOT_FOUND=%s cannot be found
+DUPLICATED='%s' is duplicated
+REQUIRED=%s is required
+INVALID='%s' is not valid

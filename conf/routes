@@ -1,0 +1,63 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:Playtoo
+#
+# ~~~~
+
+# Security
+GET     /login                                                  Playtoo.Security.login
+POST    /login                                                  Playtoo.Security.authenticate
+GET     /logout                                                 Playtoo.Security.logout
+GET     /logout/{redirect}                                      Playtoo.Security.logout
+
+# Media
+POST    /media/upload                                  			Playtoo.MediaHub.upload
+POST    /media/uploadVideo                                  	Playtoo.MediaHub.uploadVideo
+GET     /media/download/{<[0-9]+>id}                    		Playtoo.MediaHub.download
+GET     /media/image/{size}/{id}               		    		Playtoo.MediaHub.image
+GET     /media/image/{size}/{id}.?               		    	Playtoo.MediaHub.image
+
+# Swagger
+GET     /swagger                                                Playtoo.Swagger.index
+GET     /swagger/api                                            Playtoo.Swagger.api
+GET     /swagger/api/{path}                                     Playtoo.Swagger.api
+
+# Api
+# Routes for api usage only
+# ~~~~
+
+# Auth
+GET     /api/auth/login                                 		Playtoo.Security.authenticate
+GET     /api/auth/fb/login                              		Playtoo.Facebook.apiAuth
+GET     /api/auth/logout                                		Playtoo.Security.logout
+GET     /api/auth/isConnected                           		Playtoo.Security.status
+
+# User
+POST    /api/user/register     									Playtoo.api.UserApi.register
+POST    /api/user/update     									Playtoo.api.UserApi.update
+POST    /api/user/touch                                 		Playtoo.api.UserApi.touch
+POST    /api/user/forgotPassword                        		Playtoo.api.UserApi.forgotPassword
+GET     /api/user/search                                		Playtoo.api.UserApi.search
+POST    /api/user/find                                  		Playtoo.api.UserApi.find
+POST    /api/user/changePassword                        		Playtoo.api.UserApi.changePassword
+
+
+# Web
+# Routes for admin usage only
+# ~~~~
+
+# Dashboard
+GET     /office                                      			Playtoo.web.office.DashboardWeb.index
+
+# Admin
+GET     /office/admins                                      	Playtoo.web.office.AdminWeb.index
+GET     /office/admin	                                      	Playtoo.web.office.AdminWeb.get
+GET     /office/admin/delete	                                Playtoo.web.office.AdminWeb.delete
+*       /office/admin/create                                    Playtoo.web.office.AdminWeb.create
+*       /office/admin/update                                    Playtoo.web.office.AdminWeb.update
+
+# Users
+GET     /office/users                                      		Playtoo.web.office.UserWeb.index
+GET     /office/user	                                      	Playtoo.web.office.UserWeb.get
+GET     /office/user/delete	                                    Playtoo.web.office.UserWeb.delete

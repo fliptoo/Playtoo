@@ -1,0 +1,11 @@
+#{if exception instanceof models.Playtoo.Faulty.Error}
+{"code":"${exception}","ref":"${exception.faulty.ref}", "error":"${exception?.message}"}
+#{/if}
+#{else}
+#{if exception?.message}
+{"code":"SYSTEM", "error":"${exception?.message}"}
+#{/if}
+#{else}
+{"code":"SYSTEM", "error":"${exception}"}
+#{/else}
+#{/else}

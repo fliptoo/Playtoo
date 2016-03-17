@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>#{get 'title' /}</title>
+    <meta charset="${_response_encoding}">
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" />
+	#{get 'moreMetas' /}
+	
+    <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="@{'/public/Kickstars/css/normalize.css'}"/>
+    <link rel="stylesheet" href="@{'/public/Kickstars/css/jquery.sidr.light.css'}"/>
+    <link rel="stylesheet" href="@{'/public/Kickstars/css/animate.min.css'}"/>
+    <link rel="stylesheet" href="@{'/public/Kickstars/css/md-slider.css'}"/>
+    <link rel="stylesheet" href="@{'/public/Kickstars/css/style.css'}"/>
+  	<!--[if lte IE 7]>
+    <link rel="stylesheet" href="@{'/public/Kickstars/css/ie7.css'}"/>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="@{'/public/Kickstars/css/ie8.css'}"/>
+    <![endif]-->
+    <link rel="stylesheet" href="@{'/public/Kickstars/css/responsive.css'}"/>
+
+    #{get 'moreStyles' /}
+      <!--[if lt IE 9]>
+    <script type="text/javascript" src="@{'/public/Kickstars/js/html5.js'}"></script>
+    <![endif]-->
+    <!--<script type="text/javascript" src="@{'/public/Kickstars/js/raphael-min.js'}"></script>-->
+    <script type="text/javascript" src="@{'/public/Kickstars/js/jquery-1.9.1.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/Kickstars/js/jquery-migrate-1.2.1.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/Kickstars/js/jquery.touchwipe.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/Kickstars/js/md_slider.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/Kickstars/js/jquery.sidr.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/Kickstars/js/jquery.tweet.min.js'}"></script>
+    <!--<script type="text/javascript" src="@{'/public/Kickstars/js/pie.js'}"></script>-->
+    <script type="text/javascript" src="@{'/public/Kickstars/js/script.js'}"></script>
+    <script type="text/javascript" src="@{'/public/Kickstars/js/responsiveslides.min.js'}"></script>
+    
+    
+    #{get 'moreScripts' /}
+    <script type="text/javascript">
+      #{if flash.error || flash.rerror}
+        $(function(){
+          var sys_show_popup_login = $(".sys_show_popup_login"),
+          sys_popup_common = $("#sys_popup_common");
+          sys_popup_common.fadeIn();
+          $("body").on("keydown.closePopup",function(e){
+              var getCode = e.keyCode ? e.keyCode : e.which;
+              if(getCode == 27) {
+                  sys_popup_common.find(".closePopup").trigger("click");
+              }
+          });
+        });
+      #{/if}
+    </script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header id="header">
+        <div class="wrap-top-menu">
+          <div class="container_12 clearfix">
+            <div class="grid_12">
+              <nav class="top-menu">
+                <ul id="main-menu" class="nav nav-horizontal clearfix">
+                  <li class="active"><a href="@{web.HomeWeb.index()}">Home</a></li>
+                  <li class="sep"></li>
+                  <li><a href="@{web.ComplaintWeb.index()}">Resident Complaints</a></li>
+                  <li class="sep"></li>
+                  <li><a href="@{web.CulpritWeb.index()}">Catch the Culprit</a></li>
+                  <li class="sep"></li>
+                  <li><a href="@{web.ThinkBoxWeb.index()}">Resident Think Box</a></li>
+                  <li class="sep"></li>
+                  <li><a href="@{web.ReportCardWeb.index()}">Report Card</a></li>
+                  <li class="sep"></li>
+                  <li><a href="@{web.CouncillorWeb.index()}">My Councillor</a></li>
+                  <li class="sep"></li>
+                  <li><a href="@{web.HomeWeb.about()}">About</a></li>
+                </ul>
+                <a id="btn-toogle-menu" class="btn-toogle-menu" href="#alternate-menu">
+                <span class="line-bar"></span>
+                <span class="line-bar"></span>
+                <span class="line-bar"></span>
+                </a>
+                <div id="right-menu">
+                  <ul class="alternate-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="@{web.ComplaintWeb.index()}">Resident Complaints</a></li>
+                    <li><a href="@{web.CulpritWeb.index()}">Catch the Culprit</a></li>
+                    <li><a href="@{web.ThinkBoxWeb.index()}">Resident Think Box</a></li>
+                    <li><a href="@{web.ReportCardWeb.index()}">Report Card</a></li>
+                    <li><a href="@{web.CouncillorWeb.index()}">My Councillor</a></li>
+                    <li><a href="contact.html">About</a></li>
+                  </ul>
+                </div>
+              </nav>
+              
+              <i id="sys_btn_toggle_search" class="icon iBtnRed make-right"></i>
+            </div>
+          </div>
+        </div>
+        <!-- end: .wrap-top-menu -->
+        <div class="container_12 clearfix">
+          <div class="grid_12 header-content">
+            <div id="sys_header_right" class="header-right">
+              <div class="account-panel">
+                #{secure.yes}
+                  <a href="@{Security.logout()}" class="btn btn-red">Logout ${me.name}</a>
+                #{/secure.yes}
+                #{secure.no}  
+                  <a href="#" class="btn btn-red sys_show_popup_login">Register</a>
+                  <a href="#" class="btn btn-black sys_show_popup_login">Login</a>
+                #{/secure.no}
+              </div>
+              <!-- <div class="form-search">
+                <form action="#">
+                  <label for="sys_txt_keyword">
+                  <input id="sys_txt_keyword" class="txt-keyword" type="text" placeholder="Search..."/>
+                  </label>
+                  <button class="btn-search" type="reset"><i class="icon iMagnifier"></i></button>
+                  <button class="btn-reset-keyword" type="reset"><i class="icon iXHover"></i></button>
+                </form>
+              </div> -->
+            </div>
+            <div class="header-left">
+              <h1 id="logo">
+                <a href="@{web.HomeWeb.index()}"><img width="70%" src="@{'/public/Kickstars/images/logo.png'}" alt="MyCleanCity"/></a>
+              </h1>
+              <div class="main-nav clearfix">
+                <div class="nav-item">
+                  <a href="@{web.ComplaintWeb.create()}" class="nav-title">Submit</a>
+                  <p class="rs nav-description">Complaint</p>
+                </div>
+                <span class="sep"></span>
+                <div class="nav-item">
+                  <a href="@{web.CulpritWeb.create()}" class="nav-title">Catch</a>
+                  <p class="rs nav-description">The Culprit</p>
+                </div>
+                <span class="sep"></span>
+                <div class="nav-item">
+                  <a href="@{web.ThinkBoxWeb.create()}" class="nav-title">Submit</a>
+                  <p class="rs nav-description">Idea</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!--end: #header -->
+
+      #{doLayout /}
+      
+      <footer id="footer">
+        <div class="container_12 main-footer">
+          <div class="grid_3 about-us">
+            <h3 class="rs title">About</h3>
+            <p class="rs description">The MyCleanCity mobile application is a project initiated by the Center to Combat Corruption and Cronyism. The vision of MyCleanCity is as follows - “A  livable and clean city for everyone”.</p>
+          </div>
+          <div class="grid_3">
+            <h3 class="rs title">Discover</h3>
+            <div class="footer-menu">
+              <ul class="rs">
+                <li><a class="be-fc-orange" href="@{web.ComplaintWeb.index()}">Resident Complaints</a></li>
+                <li><a class="be-fc-orange" href="@{web.CulpritWeb.index()}">Catch the Culprit</a></li>
+                <li><a class="be-fc-orange" href="@{web.ThinkBoxWeb.index()}">Resident Think Box</a></li>
+                <li><a class="be-fc-orange" href="@{web.ReportCardWeb.index()}">Report Card</a></li>
+                <li><a class="be-fc-orange" href="@{web.CouncillorWeb.index()}">My Councillor</a></li>
+              </ul>
+              <div class="clear"></div>
+            </div>
+          </div>
+          <div class="clear clear-2col"></div>
+          <div class="grid_3 email-newsletter">
+            <h3 class="rs title">Resident Complaints</h3>
+            <div class="inner">
+              <p class="rs description">Help identify local issues in your neighborhood. Provide accurate description so that local authorities could resolve them efficiently</p>
+              <form action="@{web.ComplaintWeb.create()}">
+                <div class="form form-email">
+                  <button class="btn btn-green" type="submit">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!--end: .email-newsletter -->
+          <div class="clear clear-2col"></div>
+          <div class="grid_3 email-newsletter">
+            <h3 class="rs title">Catch the Culprit</h3>
+            <div class="inner">
+              <p class="rs description">Be the ears and eyes of MBPJ. Help us nab individuals or corporations that dirtying the city or create problems in your neighborhood</p>
+              <form action="@{web.CulpritWeb.create()}">
+                <div class="form form-email">
+                  <button class="btn btn-green" type="submit">Catch</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!--end: .email-newsletter -->
+          <div class="clear"></div>
+        </div>
+        <div class="copyright">
+          <div class="container_12">
+            <div class="grid_12">
+              <a class="logo-footer" href="@{web.HomeWeb.index()}"><img width="40%" src="@{'/public/images/c4.png'}" alt="MyCleanCity"/></a>
+              <p class="rs term-privacy">
+                <a class="fw-b be-fc-orange" href="@{web.HomeWeb.term()}">Terms & Conditions</a>
+                <span class="sep">/</span>
+                <a class="fw-b be-fc-orange" href="@{web.HomeWeb.policy()}">Privacy Policy</a>
+              </p>
+              <p class="rs ta-c fc-gray-dark site-copyright">Copyright © MyCleanCity.com.my 2014-2015</p>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </footer>
+      <!--end: #footer -->
+
+      <div class="popup-common" id="sys_popup_common">
+        <div class="overlay-bl-bg"></div>
+        <div class="container_12 pop-content">
+          <div class="grid_12 wrap-btn-close ta-r">
+            <i class="icon iBigX closePopup"></i>
+          </div>
+          <div class="grid_6 prefix_1">
+            <div class="form login-form">
+              #{form @web.HomeWeb.register(), method:'POST'} 
+                <h3 class="rs title-form">Register</h3>
+                <div class="box-white">
+                  <h4 class="rs title-box">New to MyCleanCity?</h4>
+                  <p class="rs">A MyCleanCity account is required to continue.</p>
+                  #{if flash.rerror}
+                  <p class="rs fc-orange">&{flash.rerror}</p>
+                  #{/if}
+                  <div class="form-action">
+                    <label for="txt_name">
+                    <input name="name" id="txt_name" class="txt fill-width" type="text" placeholder="Enter full name" value="${name}" required/>
+                    </label>
+                    <div class="wrap-2col clearfix">
+                      <div class="col">
+                        <label for="txt_email">
+                        <input name="email" id="txt_email" class="txt fill-width" type="email" placeholder="Enter your e-mail address" value="${email}" required/>
+                        </label>
+                        <label for="txt_re_email">
+                        <input name="cEmail" id="txt_re_email" class="txt fill-width" type="email" placeholder="Re-enter your e-mail adress" value="${cEmail}" required/>
+                        </label>
+                      </div>
+                      <div class="col">
+                        <label for="txt_password">
+                        <input name="password" id="txt_password" class="txt fill-width" type="password" placeholder="Enter password" required/>
+                        </label>
+                        <label for="txt_re_password">
+                        <input name="cPassword" id="txt_re_password" class="txt fill-width" type="password" placeholder="Re-enter password" required/>
+                        </label>
+                      </div>
+                    </div>
+                    <p class="rs pb10">By signing up, you agree to our <a href="#" class="fc-orange">terms of use</a> and <a href="#" class="fc-orange">privacy policy</a>.</p>
+                    <p class="rs ta-c">
+                      <button class="btn btn-red btn-submit" type="submit">Register</button>
+                    </p>
+                  </div>
+                </div>
+              #{/form}
+            </div>
+          </div>
+          <div class="grid_4">
+            <div class="form login-form">
+              #{form @Security.authenticate(), method:'POST'} 
+                <h3 class="rs title-form">Login</h3>
+                <div class="box-white">
+                  <h4 class="rs title-box">Already Have an Account?</h4>
+                  <p class="rs">Please log in to continue.</p>
+                  #{if flash.error}
+                  <p class="rs fc-orange">&{flash.error}</p>
+                  #{/if}
+                  <div class="form-action">
+                    <label for="email">
+                    <input id="email" name="email" class="txt fill-width" type="email" placeholder="Enter your e-mail address" required/>
+                    </label>
+                    <label for="password">
+                    <input id="password" name="password" class="txt fill-width" type="password" placeholder="Enter password" required/>
+                    </label>
+                    <label for="remember" class="rs pb20 clearfix">
+                    <input id="remember" name="remember" type="checkbox" class="chk-remember"/>
+                    <span class="lbl-remember">Remember me</span>
+                    </label>
+                    <p class="rs ta-c pb10">
+                      <button class="btn btn-red btn-submit" type="submit">Login</button>
+                    </p>
+                    <p class="rs ta-c">
+                      <a href="#" class="fc-orange">I forgot my password</a>
+                    </p>
+                  </div>
+                </div>
+              #{/form}
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

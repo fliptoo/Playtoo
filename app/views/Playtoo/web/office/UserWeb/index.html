@@ -1,0 +1,82 @@
+#{extends '/layout/office.html' /}
+#{set title:'Users' /}
+#{set tab:3.1 /}
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="portlet light">
+        <div class="portlet-title">
+          
+          <div class="caption font-dark">
+            <span class="caption-subject bold uppercase">Search</span>
+            <span class="caption-helper"></span>
+          </div>
+
+        </div>
+        <div class="portlet-body">
+          
+          #{form @web.office.UserWeb.index(), method:'GET', role:'form'} 
+            <div class="form-body">
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" id="keyword" name="keyword" value="${keyword}">
+                <label for="form_control_1">Keyword</label>
+              </div>
+
+            </div>
+            <div class="form-actions noborder">
+              <button type="submit" class="btn blue">Search</button>
+              <button type="button" class="btn default" onclick="location.href='@{web.office.UserWeb.index()}';">Reset</button>
+            </div>
+          #{/form}
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="portlet light">
+        <div class="portlet-title">
+          <div class="caption font-dark">
+            <span class="caption-subject bold uppercase">Results</span>
+            <span class="caption-helper"></span>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <div class="table-scrollable table-scrollable-borderless">
+            <table class="table table-hover table-light">
+              <thead>
+                <tr class="uppercase">
+                  <th colspan="2">SELLER</th>
+                  <th>USERNAME</th>
+                  <th>LAST LOGIN</th>
+                </tr>
+              </thead>
+              #{paginate.list items:users, as:'user'}
+                <tr>
+                  <td class="fit">
+                    <img class="user-pic" src="${user.avatar?.url('100')}">
+                  </td>
+                  <td>
+                    <a href="@{web.office.UserWeb.get(user.id)}" class="primary-link">${user.name}</a>
+                  </td>
+                  <td>
+                     ${user.username}
+                  </td>
+                  <td>
+                    ${user.lastLoginDate?.format('dd/MMM/yyyy, hh:mm a')}
+                  </td>
+                </tr>
+              #{/paginate.list}
+            </table>
+          </div>
+        </div>
+        <div class="paginator">
+          #{paginate.controls items:users /}
+          #{paginate.summary items:users /}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

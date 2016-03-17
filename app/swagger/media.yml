@@ -1,0 +1,71 @@
+resourcePath: /media
+apis: 
+
+- path: /media/upload
+  operations:
+
+  - httpMethod: POST
+    nickname: upload
+    summary: Upload file to server
+    parameters:
+
+    - name: data
+      dataType: file
+      paramType: query
+      required: true
+      description: "File to upload"
+
+- path: /media/download/{id}
+  operations:
+
+  - httpMethod: GET
+    nickname: download
+    summary: Download file by id
+    parameters:
+
+    - name: id
+      dataType: long
+      paramType: path
+      required: true
+      description: "Media Id"
+      
+- path: /media/image/{size}/{id}
+  operations:
+
+  - httpMethod: GET
+    nickname: image
+    summary: View image by id with size
+    parameters:
+    
+    - name: size
+      dataType: string
+      paramType: path
+      required: true
+      description: "Image size (S, M, L, O) or any integer value"
+      
+    - name: id
+      dataType: long
+      paramType: path
+      required: true
+      description: "Media Id"
+      
+- path: /media/image/user/{size}/{id}
+  operations:
+
+  - httpMethod: GET
+    nickname: image
+    summary: View avatar by user id with size
+    parameters:
+    
+    - name: size
+      dataType: string
+      paramType: path
+      required: true
+      description: "Image size (S, M, L, O) or any integer value"
+      
+    - name: id
+      dataType: long
+      paramType: path
+      required: true
+      description: "User Id"
+      

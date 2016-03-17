@@ -1,0 +1,4 @@
+self: play -> Playtoo 0.4.2
+
+require:
+    - play

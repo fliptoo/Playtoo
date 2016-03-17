@@ -1,0 +1,94 @@
+resourcePath: /auth
+apis: 
+
+
+
+- path: /api/auth/login
+  operations:
+
+  - httpMethod: GET
+    nickname: login
+    summary: Login with recognizer (email or username) and password from mobile client
+    parameters:
+
+    - name: recognizer
+      dataType: string
+      paramType: query
+      required: true
+      description: "Unique recognizer"
+
+    - name: password
+      dataType: string
+      paramType: query
+      required: true
+      description: "User password"
+      
+    - name: version
+      dataType: string
+      paramType: query
+      required: false
+      description: "Client version"
+      
+    - name: platform
+      dataType: string
+      paramType: query
+      required: false
+      description: "Device Platform, null will be ignore"
+      allowableValues:
+          valueType: LIST
+          values:
+            - IOS
+            - ANDROID
+      
+- path: /api/auth/fb/login
+  operations:
+
+  - httpMethod: GET
+    nickname: fbLogin
+    summary: Login via Facebook from mobile client
+    parameters:
+
+    - name: fbid
+      dataType: string
+      paramType: query
+      required: false
+      description: "Facebook Id"
+
+    - name: token
+      dataType: string
+      paramType: query
+      required: false
+      description: "Facebook access token"
+      
+    - name: version
+      dataType: string
+      paramType: query
+      required: false
+      description: "Client version"
+      
+    - name: platform
+      dataType: string
+      paramType: query
+      required: false
+      description: "Device Platform, null will be ignore"
+      allowableValues:
+          valueType: LIST
+          values:
+            - IOS
+            - ANDROID
+      
+- path: /api/auth/logout
+  operations:
+
+  - httpMethod: GET
+    nickname: logout
+    summary: Logout from server
+    
+    
+    
+- path: /api/auth/isConnected
+  operations:
+
+  - httpMethod: GET
+    nickname: status
+    summary: Check if user is authenticated or not

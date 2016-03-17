@@ -1,0 +1,12 @@
+.settings
+data
+modules
+tmp
+eclipse
+.project
+.classpath
+test-result
+logs
+*.iml
+*.ipr
+*.iws

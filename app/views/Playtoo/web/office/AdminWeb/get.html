@@ -1,0 +1,51 @@
+#{extends '/layout/office.html' /}
+#{set title:'Admin' /}
+#{set tab:2.1 /}
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light">
+        <div class="portlet-title">
+          <div class="caption font-blue-soft">
+            <span class="caption-subject bold uppercase"> Admin</span>
+          </div>
+          <div class="actions">
+            <a class="btn btn-circle btn-icon-only green" href="@{Playtoo.web.office.AdminWeb.index()}">
+            <i class="icon-list"></i>
+            </a>
+            <a class="btn btn-circle btn-icon-only blue" href="@{Playtoo.web.office.AdminWeb.update(user.id)}">
+            <i class="icon-pencil"></i>
+            </a>
+            <a class="btn btn-circle btn-icon-only red" href="@{Playtoo.web.office.AdminWeb.delete(user.id)}" onclick="return confirm('Are you sure you want to delete this item?');">
+            <i class="icon-trash"></i>
+            </a>
+          </div>
+        </div>
+        <div class="portlet-body form">
+            <div class="form-body">
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" value="${user.name}" readonly>
+                <label>Name</label>
+              </div>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" value="${user.recognizer}" readonly>
+                #{if usingEmail}
+                <label>Email</label>
+                #{/if}
+                #{else}
+                <label>Username</label>
+                #{/else}
+              </div>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" value="${user.lastLogin?.format('dd/MMM/yyyy, hh:mm a')}" readonly>
+                <label>Last Login</label>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

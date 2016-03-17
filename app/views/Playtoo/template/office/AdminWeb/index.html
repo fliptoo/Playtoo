@@ -1,0 +1,88 @@
+#{extends '/layout/office.html' /}
+#{set title:'Admins' /}
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="portlet light">
+        <div class="portlet-title">
+          
+          <div class="caption font-dark">
+            <span class="caption-subject bold uppercase">Search</span>
+            <span class="caption-helper"></span>
+          </div>
+
+        </div>
+        <div class="portlet-body">
+          
+          #{form @Playtoo.web.office.AdminWeb.index(), method:'GET', role:'form'} 
+            <div class="form-body">
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" id="keyword" name="keyword" value="${keyword}">
+                <label for="form_control_1">Keyword</label>
+              </div>
+
+            </div>
+            <div class="form-actions noborder">
+              <button type="submit" class="btn blue">Search</button>
+              <button type="button" class="btn default" onclick="location.href='@{Playtoo.web.office.AdminWeb.index()}';">Reset</button>
+            </div>
+          #{/form}
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="portlet light">
+        <div class="portlet-title">
+          <div class="caption font-dark">
+            <span class="caption-subject bold uppercase">Results</span>
+            <span class="caption-helper"></span>
+          </div>
+          <div class="actions">
+            <a href="@{Playtoo.web.office.AdminWeb.create()}" class="btn btn-circle btn-default btn-sm">
+              <i class="fa fa-plus"></i> Add 
+            </a>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <div class="table-scrollable table-scrollable-borderless">
+            <table class="table table-hover table-light">
+              <thead>
+                <tr class="uppercase">
+                  <th>ADMIN</th>
+                  #{if usingEmail}
+                  <th>EMAIL</th>
+                  #{/if}
+                  #{else}
+                  <th>USERNAME</th>
+                  #{/else}
+                  <th>LAST LOGIN</th>
+                </tr>
+              </thead>
+              #{Playtoo.list items:users, as:'user'}
+                <tr>
+                  <td>
+                    <a href="@{Playtoo.web.office.AdminWeb.get(user.id)}" class="primary-link">${user.name}</a>
+                  </td>
+                  <td>
+                     ${user.recognizer}
+                  </td>
+                  <td>
+                    ${user.lastLogin?.format('dd/MMM/yyyy, hh:mm a')}
+                  </td>
+                </tr>
+              #{/Playtoo.list}
+            </table>
+          </div>
+        </div>
+        <div class="paginator">
+          #{Playtoo.controls items:users /}
+          #{Playtoo.summary items:users /}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

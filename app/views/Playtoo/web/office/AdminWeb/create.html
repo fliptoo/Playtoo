@@ -1,0 +1,150 @@
+#{extends '/layout/office.html' /}
+#{set title:'New Admin' /}
+#{set tab:2.1 /}
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light">
+        <div class="portlet-title">
+          <div class="caption font-blue-soft">
+            <span class="caption-subject bold uppercase"> New Admin</span>
+          </div>
+        </div>
+        <div class="portlet-body form">
+          #{ifErrors}
+            <div class="alert alert-danger display-block">
+              <button class="close" data-close="alert"></button>
+              #{errors}
+                 <span>${error}</span>
+              #{/errors}
+            </div>
+          #{/ifErrors}
+
+          #{form @Playtoo.web.office.AdminWeb.create(), method:'POST', id:'create-form', role:'form', autocomplete:"off"} 
+            <div class="form-body">
+
+              <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+              <input style="display:none" type="text" name="fakeusernameremembered"/>
+              <input style="display:none" type="password" name="fakepasswordremembered"/>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" id="name" name="name" value="${name}">
+                <label for="name">Name</label>
+                <span class="help-block">Please enter your name</span>
+              </div>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" id="recognizer" name="recognizer" value="${recognizer}">
+                #{if usingEmail}
+                <label for="recognizer">Email</label>
+                #{/if}
+                #{else}
+                <label for="recognizer">Username</label>
+                #{/else}
+                <span class="help-block">Maximum 20 characters</span>
+              </div>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="password" class="form-control" id="password" name="password">
+                <label for="password">Password</label>
+                <span class="help-block">Minimum 6 characters and maximum 20 characters</span>
+              </div>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="password" class="form-control" id="cpassword" name="cpassword">
+                <label for="cpassword">Confirm Password</label>
+                <span class="help-block">Please confirm your password</span>
+              </div>
+
+            </div>
+            <div class="form-actions noborder">
+              <button type="submit" class="btn blue">Create</button>
+              <button type="reset" class="btn default">Reset</button>
+            </div>
+          #{/form}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+#{set "moreScripts"}
+<script src="@{'/public/metronic/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'}" type="text/javascript"></script>
+<script>
+$().ready(function() {
+  var validator =
+  $("#create-form").validate({
+      errorElement: 'span',
+      errorClass: 'help-block has-error',
+      highlight: function (element) {
+        $(element).closest('.form-group').addClass('has-error');
+        $(element).closest('.form-group').find('.help-block').hide();
+      },
+      unhighlight: function (element) {
+        $(element).closest('.form-group').removeClass('has-error');
+        $(element).closest('.form-group').find('.help-block').show();
+      },
+      rules: {
+          name: {
+              required: true
+          },
+
+          #{if usingEmail}
+          recognizer: {
+              required: true,
+              maxlength: 20,
+              email, true
+          },
+          #{/if}
+          #{else}
+          recognizer: {
+              required: true,
+              maxlength: 20
+          },
+          #{/else}
+          password: {
+              required: true,
+              minlength: 6,
+              maxlength: 20
+          },
+          cpassword: {
+              required: true,
+              minlength: 6,
+              maxlength: 20,
+              equalTo: "#password"
+          }
+      },
+      messages: {
+          #{if usingEmail}
+          recognizer: {
+              maxlength: "Maximum 20 characters only",
+              email: "Please enter a valid email address"
+          },
+          #{/if}
+          #{else}
+          recognizer: {
+              maxlength: "Maximum 20 characters only"
+          },
+          #{/else}
+          password: {
+              minlength: "Minimum 6 characters only",
+              maxlength: "Maximum 20 characters only"
+          },
+          cpassword: {
+              minlength: "Minimum 6 characters only",
+              maxlength: "Maximum 20 characters only",
+              equalTo: "Your confirm password is not matching"
+          }
+      }
+  });
+
+  #{ifError 'username'}
+    var errors = { username: "#{error 'username' /}" };
+    validator.showErrors(errors); 
+    $('#username').focus();
+  #{/ifError}
+
+});
+</script>
+#{/set}

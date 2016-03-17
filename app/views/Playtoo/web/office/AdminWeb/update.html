@@ -1,0 +1,119 @@
+#{extends '/layout/office.html' /}
+#{set title:'Update Admin' /}
+#{set tab:2.1 /}
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light">
+        <div class="portlet-title">
+          <div class="caption font-blue-soft">
+            <span class="caption-subject bold uppercase"> Update Admin</span>
+          </div>
+        </div>
+        <div class="portlet-body form">
+          #{form @Playtoo.web.office.AdminWeb.update(), method:'POST', id:'create-form', role:'form', autocomplete:"off"} 
+            <div class="form-body">
+              <input type="hidden" name="id" value="${user.id}"/>
+
+              <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+              <input style="display:none" type="text" name="fakeusernameremembered"/>
+              <input style="display:none" type="password" name="fakepasswordremembered"/>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" id="recognizer" name="recognizer" value="${user.recognizer}" readonly>
+                #{if usingEmail}
+                <label for="recognizer">Email</label>
+                #{/if}
+                #{else}
+                <label for="recognizer">Username</label>
+                #{/else}
+                <span class="help-block">Maximum 20 characters</span>
+              </div>
+              
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" id="name" name="name" value="${user.name}">
+                <label for="name">Name</label>
+                <span class="help-block">Please enter your name</span>
+              </div>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="password" class="form-control" id="password" name="password">
+                <label for="password">Password</label>
+                <span class="help-block">Leave it empty won't update password. Minimum 6 characters and maximum 20 characters</span>
+
+              </div>
+
+              <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="password" class="form-control" id="cpassword" name="cpassword">
+                <label for="cpassword">Confirm Password</label>
+                <span class="help-block">Please confirm your password</span>
+              </div>
+
+            </div>
+            <div class="form-actions noborder">
+              <button type="submit" class="btn blue">Update</button>
+              <button type="button" class="btn default" onclick="window.history.back()">Cancel</button>
+            </div>
+          #{/form}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+#{set "moreScripts"}
+<script src="@{'/public/metronic/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'}" type="text/javascript"></script>
+<script>
+$().ready(function() {
+  var validator =
+  $("#create-form").validate({
+      errorElement: 'span',
+      errorClass: 'help-block has-error',
+      highlight: function (element) {
+        $(element).closest('.form-group').addClass('has-error');
+        $(element).closest('.form-group').find('.help-block').hide();
+      },
+      unhighlight: function (element) {
+        $(element).closest('.form-group').removeClass('has-error');
+        $(element).closest('.form-group').find('.help-block').show();
+      },
+      rules: {
+          name: {
+              required: true
+          },
+          password: {
+              minlength: 6,
+              maxlength: 20
+          },
+          cpassword: {
+              minlength: 6,
+              maxlength: 20,
+              equalTo: "#password",
+              required: function(element) { 
+                return $("#password").val().length > 0;
+              }
+          }
+      },
+      messages: {
+          password: {
+              minlength: "Minimum 6 characters only",
+              maxlength: "Maximum 20 characters only"
+          },
+          cpassword: {
+              minlength: "Minimum 6 characters only",
+              maxlength: "Maximum 20 characters only",
+              equalTo: "Your confirm password is not matching"
+          }
+      }
+  });
+
+  #{ifErrors}
+    var errors = { username: "#{error 'username' /}" };
+    validator.showErrors(errors); 
+    $('#username').focus();
+  #{/ifErrors}
+
+});
+</script>
+#{/set}
