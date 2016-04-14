@@ -12,13 +12,13 @@ import controllers.Playtoo.BaseOffice;
 public class AdminWeb extends BaseOffice {
 
 	public static void index(String keyword, int page, int length) {
-
+		boolean usingEmail = UserID.usingEmail();
 		length = Util.length(length);
-		ListPaginator<UserID> users = new ListPaginator(UserID.search(keyword,
-				UserID.ADMIN, null, page, length), UserID.count(keyword,
-				UserID.ADMIN, null));
+		ListPaginator<UserID> users = new ListPaginator(
+				UserID.search(keyword, UserID.ADMIN, null, page, length),
+				UserID.count(keyword, UserID.ADMIN, null));
 		users.setPageSize(length);
-		render(users, keyword);
+		render(users, keyword, usingEmail);
 	}
 
 	public static void get(Long id) {

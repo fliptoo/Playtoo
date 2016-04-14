@@ -83,6 +83,13 @@ apis:
   - httpMethod: GET
     nickname: logout
     summary: Logout from server
+    parameters:
+
+    - name: device
+      dataType: string
+      paramType: query
+      required: true
+      description: "Device ID"
     
     
     

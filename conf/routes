@@ -44,8 +44,12 @@ POST    /api/user/changePassword                        		Playtoo.api.UserApi.ch
 
 
 # Web
-# Routes for admin usage only
+# Routes for web usage only
 # ~~~~
+
+# General
+*       /resetPassword                                      	Playtoo.web.ResetPasswordWeb.index
+GET     /resetPasswordAck                                      	Playtoo.web.ResetPasswordWeb.ack
 
 # Dashboard
 GET     /office                                      			Playtoo.web.office.DashboardWeb.index

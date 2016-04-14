@@ -1,6 +1,5 @@
 #{extends '/layout/office.html' /}
 #{set title:'User' /}
-#{set tab:3.1 /}
 
 <div class="page-content">
   <div class="row">
@@ -11,10 +10,10 @@
             <span class="caption-subject bold uppercase"> User</span>
           </div>
           <div class="actions">
-            <a class="btn btn-circle btn-icon-only green" href="@{web.office.UserWeb.index()}">
+            <a class="btn btn-circle btn-icon-only green" href="@{Playtoo.web.office.UserWeb.index()}">
             <i class="icon-list"></i>
             </a>
-            <a class="btn btn-circle btn-icon-only red" href="@{web.office.UserWeb.delete(user.id)}" onclick="return confirm('Are you sure you want to delete this item?');">
+            <a class="btn btn-circle btn-icon-only red" href="@{Playtoo.web.office.UserWeb.delete(user.id)}" onclick="return confirm('Are you sure you want to delete this item?');">
             <i class="icon-trash"></i>
             </a>
           </div>
@@ -33,12 +32,17 @@
               </div>
 
               <div class="form-group form-md-line-input form-md-floating-label">
-                <input type="text" class="form-control" value="${user.username}" readonly>
+                <input type="text" class="form-control" value="${user.recognizer}" readonly>
+                #{if usingEmail}
+                <label>Email</label>
+                #{/if}
+                #{else}
                 <label>Username</label>
+                #{/else}
               </div>
 
               <div class="form-group form-md-line-input form-md-floating-label">
-                <input type="text" class="form-control" value="${user.lastLoginDate?.format('dd/MMM/yyyy, hh:mm a')}" readonly>
+                <input type="text" class="form-control" value="${user.lastLogin?.format('dd/MMM/yyyy, hh:mm a')}" readonly>
                 <label>Last Login</label>
               </div>
             </div>

@@ -11,6 +11,7 @@ import models.Playtoo.Checker;
 import models.Playtoo.Faulty;
 import models.Playtoo.Faulty.Type;
 import models.Playtoo.Secured;
+import models.Playtoo.db.Platform;
 import models.Playtoo.db.UserID;
 import models.Playtoo.json.JLogin;
 import models.Playtoo.json.JModel;
@@ -104,7 +105,19 @@ public class Security extends BaseController {
 		redirectToOriginalURL();
 	}
 
-	public static void logout(String redirect) throws Throwable {
+	public static void logout(String redirect, String device) throws Throwable {
+
+		UserID me = connected();
+		if (StringUtils.isNotEmpty(device)) {
+			Platform platform = Platform.find("byDevice", device).first();
+			if (platform != null) {
+				if (me.platforms.remove(platform)) {
+					me.save();
+					platform.delete();
+				}
+			}
+		}
+
 		session.clear();
 		response.removeCookie("rememberme");
 
@@ -166,7 +179,7 @@ public class Security extends BaseController {
 				Date expirationDate = new Date(Long.parseLong(time));
 				Date now = new Date();
 				if (expirationDate == null || expirationDate.before(now)) {
-					logout(null);
+					logout(null, null);
 				}
 				if (Crypto.sign(restOfCookie).equals(sign)) {
 					session.put(USER, user);

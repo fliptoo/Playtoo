@@ -67,6 +67,12 @@ apis:
       required: true
       description: "Device Token"
 
+    - name: device
+      dataType: string
+      paramType: query
+      required: true
+      description: "Device ID"
+
 
 
 - path: /api/user/forgotPassword
@@ -77,11 +83,11 @@ apis:
     summary: Ask for a reset password link
     parameters:
     
-    - name: email
+    - name: recognizer
       dataType: string
       paramType: query
       required: false
-      description: "User email"
+      description: "User recognizer"
     
     
     

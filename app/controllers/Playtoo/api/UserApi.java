@@ -38,8 +38,8 @@ public class UserApi extends BaseApi {
 		renderJSON(o);
 	}
 
-	public static void touch(String platform, String token, String version)
-			throws Faulty {
+	public static void touch(String platform, String token, String version,
+			String device) throws Faulty {
 		Checker.Required(token);
 
 		if (StringUtils.isEmpty(platform))
@@ -50,16 +50,21 @@ public class UserApi extends BaseApi {
 			Checker.Invalid(platform);
 
 		UserID me = connected();
-		Platform _platform = new Platform(me, platform, token, version);
-		Platform ePlatform = me.findPlatform(platform, token);
+		Platform ePlatform = Platform.find("byDevice", device).first();
+		if (ePlatform != null && ePlatform.user != me) {
+			ePlatform.user.platforms.remove(ePlatform);
+			ePlatform.user.save();
+			ePlatform.delete();
+			ePlatform = null;
+		}
 
-		if (ePlatform == null) {
-			Platform.clear(me, platform, token);
-			_platform.save();
-			me.platforms.add(_platform);
-		} else {
+		if (ePlatform == null)
+			me.platforms
+					.add(Platform.create(me, platform, token, device, version));
+		else {
 			if (StringUtils.isNotEmpty(version))
 				ePlatform.version = version;
+			ePlatform.token = token;
 			ePlatform.lastUsed = new Date();
 			ePlatform.save();
 		}
@@ -109,9 +114,9 @@ public class UserApi extends BaseApi {
 	}
 
 	@Secured(false)
-	public static void forgotPassword(String email) throws Faulty {
-		Checker.Required(email);
-		UserID user = UserID.findByRecognizer(email);
+	public static void forgotPassword(String recognizer) throws Faulty {
+		Checker.Required(recognizer);
+		UserID user = UserID.findByRecognizer(recognizer);
 		Checker.NotFound(user);
 
 		user.pwdToken = UUID.randomUUID().toString();
@@ -119,9 +124,9 @@ public class UserApi extends BaseApi {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("token", user.pwdToken);
-		map.put("email", user.recognizer);
+		map.put("recognizer", user.recognizer);
 		String resetURL = "http://" + request.host
-				+ Router.reverse("Playtoo.web.UserWeb.resetPassword", map).url;
+				+ Router.reverse("Playtoo.web.ResetPasswordWeb.index", map).url;
 		Mails.forgotPassword(user, resetURL);
 		OK();
 	}

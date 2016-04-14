@@ -90,8 +90,10 @@ public class Facebook extends Controller {
 	}
 
 	private static UserID register(String token) throws ParseException, Faulty {
-		JsonObject me = WS.url("https://graph.facebook.com/me?access_token=%s",
-				WS.encode(token)).get().getJson().getAsJsonObject();
+		JsonObject me = WS
+				.url("https://graph.facebook.com/me?access_token=%s&fields=id,name,email",
+						WS.encode(token))
+				.get().getJson().getAsJsonObject();
 		return UserID.findOrCreateFromFB(me, token);
 	}
 

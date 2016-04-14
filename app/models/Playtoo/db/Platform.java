@@ -18,6 +18,8 @@ public class Platform extends Model {
 
 	public String type;
 
+	public String device;
+
 	public String token;
 
 	public String version;
@@ -27,36 +29,25 @@ public class Platform extends Model {
 
 	public Date lastUsed;
 
-	public Platform(UserID user, String type, String token, String version) {
-		this.user = user;
-		this.type = type;
-		this.token = token;
-		this.version = version;
-		this.lastUsed = new Date();
-	}
-
-	public static void clear(UserID user, String type, String token) {
-
-		Platform ePlatform = null;
-		if (StringUtils.isNotEmpty(token))
-			ePlatform = Platform.find("byTypeAndToken", type, token).first();
-		else
-			ePlatform = Platform.find("byTypeAndTokenIsNull", type).first();
-
-		if (ePlatform != null && ePlatform.user.id != user.id) {
-			ePlatform.user.platforms.remove(ePlatform);
-			ePlatform.user.save();
-			ePlatform.delete();
-		}
+	public static Platform create(UserID user, String type, String token,
+			String device, String version) {
+		Platform platform = new Platform();
+		platform.user = user;
+		platform.type = type;
+		platform.token = token;
+		platform.device = device;
+		platform.version = version;
+		platform.lastUsed = new Date();
+		return platform.save();
 	}
 
 	public static List<String> findAllToken(String type) {
 		if (StringUtils.isNotEmpty(type))
-			return Platform
-					.em()
+			return Platform.em()
 					.createQuery(
 							"SELECT p.token FROM Platform p WHERE p.type = '"
-									+ type + "'").getResultList();
+									+ type + "'")
+					.getResultList();
 		return Platform.em().createQuery("SELECT p.token FROM Platform")
 				.getResultList();
 	}

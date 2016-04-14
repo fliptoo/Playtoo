@@ -87,4 +87,31 @@ public class JModel {
 		return js;
 	}
 
+	public static <J extends JModel, M extends Model> J from(M m, Class<J> c,
+			Object param1, Object param2, Object param3) {
+		if (m == null)
+			return null;
+		J o = null;
+		try {
+			o = c.getConstructor(m.getClass(), param1.getClass(),
+					param2.getClass(), param3.getClass())
+					.newInstance(m, param1, param2, param3);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
+
+	public static <J extends JModel, M extends Model> List<J> fromList(
+			List<M> ms, Class<J> c, Object param1, Object param2,
+			Object param3) {
+		List<J> js = new ArrayList<J>();
+		for (M m : ms) {
+			J j = from(m, c, param1, param2, param3);
+			if (j != null)
+				js.add(j);
+		}
+		return js;
+	}
+
 }

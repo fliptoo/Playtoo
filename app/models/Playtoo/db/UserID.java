@@ -94,7 +94,6 @@ public class UserID extends Model {
 
 		user.fbid = me.get("id").getAsLong();
 		user.name = me.get("name").getAsString();
-
 		if (UserID.usingEmail()) {
 			if (StringUtils.isEmpty(user.recognizer)) {
 				if (me.has("email") && !me.get("email").isJsonNull())
@@ -116,9 +115,8 @@ public class UserID extends Model {
 		return find("byRecognizerAndPassword", recognizer, password).first();
 	}
 
-	public static UserID create(String recognizer, String password,
-			String name, Upload avatar, UserID createdBy, String... roles)
-			throws Faulty {
+	public static UserID create(String recognizer, String password, String name,
+			Upload avatar, UserID createdBy, String... roles) throws Faulty {
 		validateEmail(recognizer, true);
 		UserID user = new UserID();
 		user.recognizer = recognizer;
@@ -141,6 +139,7 @@ public class UserID extends Model {
 			user.save();
 		}
 		user.fbToken = token;
+		user.roles.add(UserID.MEMBER);
 		return user.save();
 	}
 
@@ -159,8 +158,8 @@ public class UserID extends Model {
 	}
 
 	public static int count(String keyword, String role, UserID me) {
-		return Integer.valueOf(query("SELECT count(*)", keyword, role, me)
-				.first().toString());
+		return Integer.valueOf(
+				query("SELECT count(*)", keyword, role, me).first().toString());
 	}
 
 	private static JPAQuery query(String select, String keyword, String role,
@@ -194,16 +193,6 @@ public class UserID extends Model {
 
 	public void encryptPassword(String password) {
 		this.password = Crypto.passwordHash(password);
-	}
-
-	public Platform findPlatform(String platform, String token) {
-		for (Platform _platform : platforms) {
-			if (_platform.type.equalsIgnoreCase(platform)
-					&& _platform.token.equalsIgnoreCase(token)) {
-				return _platform;
-			}
-		}
-		return null;
 	}
 
 	public boolean passwordMatch(String _password) {
@@ -243,8 +232,8 @@ public class UserID extends Model {
 	}
 
 	public static boolean usingEmail() {
-		return Boolean.valueOf(Play.configuration
-				.getProperty("playtoo.security.usingEmail"));
+		return Boolean.valueOf(
+				Play.configuration.getProperty("playtoo.security.usingEmail"));
 	}
 
 }

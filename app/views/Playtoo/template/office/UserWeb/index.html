@@ -1,6 +1,5 @@
 #{extends '/layout/office.html' /}
 #{set title:'Users' /}
-#{set tab:3.1 /}
 
 <div class="page-content">
   <div class="row">
@@ -16,7 +15,7 @@
         </div>
         <div class="portlet-body">
           
-          #{form @web.office.UserWeb.index(), method:'GET', role:'form'} 
+          #{form @Playtoo.web.office.UserWeb.index(), method:'GET', role:'form'} 
             <div class="form-body">
 
               <div class="form-group form-md-line-input form-md-floating-label">
@@ -27,7 +26,7 @@
             </div>
             <div class="form-actions noborder">
               <button type="submit" class="btn blue">Search</button>
-              <button type="button" class="btn default" onclick="location.href='@{web.office.UserWeb.index()}';">Reset</button>
+              <button type="button" class="btn default" onclick="location.href='@{Playtoo.web.office.UserWeb.index()}';">Reset</button>
             </div>
           #{/form}
 
@@ -48,33 +47,38 @@
             <table class="table table-hover table-light">
               <thead>
                 <tr class="uppercase">
-                  <th colspan="2">SELLER</th>
+                  <th colspan="2">USER</th>
+                  #{if usingEmail}
+                  <th>EMAIL</th>
+                  #{/if}
+                  #{else}
                   <th>USERNAME</th>
+                  #{/else}
                   <th>LAST LOGIN</th>
                 </tr>
               </thead>
-              #{paginate.list items:users, as:'user'}
+              #{Playtoo.list items:users, as:'user'}
                 <tr>
                   <td class="fit">
                     <img class="user-pic" src="${user.avatar?.url('100')}">
                   </td>
                   <td>
-                    <a href="@{web.office.UserWeb.get(user.id)}" class="primary-link">${user.name}</a>
+                    <a href="@{Playtoo.web.office.UserWeb.get(user.id)}" class="primary-link">${user.name}</a>
                   </td>
                   <td>
-                     ${user.username}
+                     ${user.recognizer}
                   </td>
                   <td>
-                    ${user.lastLoginDate?.format('dd/MMM/yyyy, hh:mm a')}
+                    ${user.lastLogin?.format('dd/MMM/yyyy, hh:mm a')}
                   </td>
                 </tr>
-              #{/paginate.list}
+              #{/Playtoo.list}
             </table>
           </div>
         </div>
         <div class="paginator">
-          #{paginate.controls items:users /}
-          #{paginate.summary items:users /}
+          #{Playtoo.controls items:users /}
+          #{Playtoo.summary items:users /}
         </div>
       </div>
     </div>
